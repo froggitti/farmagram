@@ -1,0 +1,122 @@
+body {
+    background: #fff7dc; /* url('images/xp.jpg') no-repeat center center fixed; */
+    background-size: cover;
+    font-family: "Times New Roman", Times, serif;
+    color: #161616;
+    text-align: center;
+    margin: 0;
+}
+/* BODY */
+
+/* POSTS */
+#page {
+    /* margin-left: 5%; margin-right: 5%; */
+    max-width: 1200px; /* Or any width you'd like */
+    margin: 0 auto; /* Centers the container horizontally */
+    margin-top: 7px;
+    padding: 0 15px; /* Adds space on left and right */
+    gap: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fffbec;
+    padding: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+    /* border: 3px solid #2c6f00; */
+    border: 5px solid #2c6f00;
+    border-radius: 15px;
+    box-shadow: inset 2px 2px 10px rgba(0, 0, 0, 0.3);
+}
+#page .cominfo {
+    width: 100%;
+    min-height: 300px;
+    text-wrap: wrap;
+    margin: 3px;
+    display: flex;
+    flex-direction: column;
+    /* align-items: center; */
+    justify-content: space-between;
+    background: #fff7e4;
+    border: 3px solid #be9e46;
+    border-radius: 7px;
+    box-shadow:  2px 2px 10px rgba(0, 0, 0, 0.3);
+}
+#page .cominfo, .info {
+    margin: 4px;
+    margin-bottom: -2px;
+    gap: 7px;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+}
+#page .cominfo .info img {
+    width: 30px;
+    height: 30px;
+    border-radius: 15%;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+}
+#page .cominfo .info .text {
+    text-align: left; /* Align text to the left */
+    align-self: bottom;
+    word-wrap: break-word; /* Ensures long words wrap properly */
+    width: 100%; /* Ensures the element spans the full width of its container */
+    padding: 0; /* Removes unnecessary padding */
+    box-shadow: none; /* Optional: Removes shadow for cleaner text display */
+}
+#page .post {
+    max-width: 900px;
+    text-wrap: wrap;
+    margin: 3px;
+    display: flex;
+    flex-direction: column;
+    /* align-items: center; */
+    justify-content: space-between;
+    background: #fff7e4;
+    border: 3px solid #be9e46;
+    border-radius: 7px;
+    box-shadow:  2px 2px 10px rgba(0, 0, 0, 0.3);
+}
+#page .post .info {
+    margin: 4px;
+    margin-bottom: -2px;
+    gap: 7px;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+}
+#page .post .info img {
+    width: 30px;
+    height: 30px;
+    border-radius: 15%;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+}
+#page .post .info .text {
+    text-align: left; /* Align text to the left */
+    align-self: bottom;
+    word-wrap: break-word; /* Ensures long words wrap properly */
+    width: 100%; /* Ensures the element spans the full width of its container */
+    padding: 0; /* Removes unnecessary padding */
+    box-shadow: none; /* Optional: Removes shadow for cleaner text display */
+}
+#page .post hr {
+    border: 1px solid #be9e46;
+    /* margin: 10px 0; */
+    width: 100%; /* Adjust width as necessary */
+}
+#page .post .content {
+    margin: 4px;
+    gap: 7px;
+    display: flex;
+    /* justify-content: space-between; */
+    align-items: left;
+}
+#page .post .content .text {
+    text-align: left; /* Align text to the left */
+    word-wrap: break-word; /* Ensures long words wrap properly */
+    width: 100%; /* Ensures the element spans the full width of its container */
+    margin-top: -4px; /* Removes unnecessary margin */
+    padding: 0; /* Removes unnecessary padding */
+    box-shadow: none; /* Optional: Removes shadow for cleaner text display */
+}

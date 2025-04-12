@@ -1,0 +1,49 @@
+/* HEADER */
+#header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fffbec;
+    padding: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+    /* border: 3px solid #2c6f00; */
+    border-bottom: 5px solid #2c6f00;
+    border-left: 5px solid #2c6f00; border-right: 5px solid #2c6f00;
+    border-bottom-right-radius: 15px; border-bottom-left-radius: 15px;
+    box-shadow: inset 2px 2px 10px rgba(0, 0, 0, 0.3);
+}
+#header img {
+    width: 65px;
+    height: 65px;
+    border-radius: 10%;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+}
+#header .buttons {
+    display: flex;
+    gap: 10px;
+}
+#header .buttons a {
+    text-decoration: none;
+    padding: 10px 15px;
+    background: linear-gradient(to bottom, #2c6f00, #317a00);
+    color: #fff;
+    border-radius: 8px;
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
+}
+#header .buttons a:hover {
+    background: linear-gradient(to bottom, #317a00, #2c6f00);
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+}
+#header .buttons a.acc {
+    text-decoration: none;
+    padding: 10px 15px;
+    background: linear-gradient(to bottom, #646464, #797979); /* Gray gradient */
+    color: #fff;
+    border-radius: 8px;
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
+}
+#header .buttons a.acc:hover {
+    background: linear-gradient(to bottom, #797979, #646464); /* Hover effect */
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+}
