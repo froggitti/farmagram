@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farmagram - Sign In</title>
+    <link rel="shortcut icon" type="image/x-icon" href="images/Favicon.ico">
+    <style>
+        body {
+            background: url('images/xp.jpg') no-repeat center center fixed; /* Replace with your image URL or file path */
+            background-size: cover; /* Ensures the image stretches to cover the screen */
+            font-family: "Times New Roman", Times, serif; /* Keeps Times New Roman font */
+            color: #215300; /* Keeps dark red text color */
+            text-align: center; /* Keeps centered alignment */
+            margin: 0; /* Removes body margin */
+        }
+        #wrapper {
+            width: 650px;
+            margin: 50px auto;
+            background-color: #fffbec; /* Paper-like texture */
+            border: 10px solid #2c6f00; /* Deep red border */
+            border-radius: 15px; /* Rounded corners */
+            box-shadow: 10px 10px 30px rgba(0, 0, 0, 0.4); /* Shadow for depth */
+            padding: 30px;
+        }
+        #header {
+            background-color: #fffbec;
+            padding: 20px;
+            border-radius: 10px;
+            border: 3px solid #2c6f00;
+            box-shadow: inset 2px 2px 10px rgba(0, 0, 0, 0.3); /* Inset shadow for depth */
+        }
+        #header h1 {
+            margin: 0;
+            font-size: 28px;
+            text-shadow: 2px 2px #00000057; /* Text depth */
+        }
+        #sign-in-form {
+            margin-top: 30px;
+        }
+        #sign-in-form table {
+            margin: 0 auto;
+            background-color: #fffcf5; /* Soft texture */
+            border-radius: 10px;
+            border: 3px solid #2c6f00;
+            padding: 20px;
+            box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.3); /* Outer shadow for depth */
+        }
+        #sign-in-form input[type="text"], 
+        #sign-in-form input[type="password"] {
+            width: 250px;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 2px solid #2c6f00;
+            border-radius: 8px;
+            background: linear-gradient(to bottom, #ffffff, #eaeaea); /* Button-like gradient */
+            box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.2); /* Inner shadow for depth */
+        }
+        #sign-in-form input[type="submit"] {
+            background: linear-gradient(to bottom, #2c6f00, #317a00);
+            color: #fff;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3); /* Outer shadow for depth */
+        }
+        #sign-in-form input[type="submit"]:hover {
+            background: linear-gradient(to bottom, #317a00, #2c6f00);
+        }
+        #footer {
+            margin-top: 30px;
+            font-size: 14px;
+            color: #555;
+        }
+        .marquee {
+            background: linear-gradient(to bottom, #ffe0b5, #ffdc8c); /* Gradient for texture */
+            color: #000;
+            padding: 10px;
+            border-radius: 10px;
+            border: 2px solid #805e00;
+            box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.3); /* Inset shadow */
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div id="wrapper">
+        <div id="header">
+            <h1>Farmagram Sign In</h1>
+            <p><img src="images/fgLogo1.png" alt="Farmagram Logo" width="120" height="120" style="border-radius: 10%; box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);"></p>
+        </div>
+        <div class="marquee">
+            <marquee>Welcome back! Sign in to access your Farmagram account!</marquee>
+        </div>
+        <div id="sign-in-form">
+            <h2>Sign In</h2>
+            <form action="signin#" method="POST">
+                <table>
+                    <tr>
+                        <td><label for="email">Email:</label></td>
+                        <td><input type="text" id="email" name="email" required></td>
+                    </tr>
+                    <tr>
+                        <td><label for="password">Password:</label></td>
+                        <td><input type="password" id="password" name="password" required></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="text-align: center;">
+                            <input type="submit" value="Sign In">
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+        <div id="footer">
+            <p>© 2025 Farmagram | <a href="signup">Sign Up</a></p>
+        </div>
+    </div>
+</body>
+</html>
