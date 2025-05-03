@@ -10,57 +10,185 @@
 </head>
 <body>
     <div id="header">
-        <a href="https://farmagram.xyz/home"><img src="./images/fgLogo1.png" alt="Farmagram Logo"></a>
+        <a href="/home.html"><img src="./images/fgLogo1.png" alt="Farmagram Logo"></a>
         <div class="buttons">
             <a href="#community1">Community 1</a>
             <a href="#community2">Community 2</a>
             <a href="#community3">Community 3</a>
         </div>
         <div class="buttons">
-            <a href="https://farmagram.xyz/account" class="acc">Account</a>
+            <a href="/account" class="acc">Account</a>
+            <a href="#" id="logout-btn">Logout</a>
         </div>
     </div>
 
     <div id="page">
-        <div class="post">
-            <div class="info">
-                <img src="./images/fgLogo1.png">
-                <div class="text">From the Farmagram development team • 1/18/2025</div>
-            </div>
-            <hr>
-            <div class="content">
-                <div class="text">Welcome to Farmagram! This is still a work in progress, so expect bugs. Have fun!</div>
-            </div>
+        <div id="status-message" class="status-message"></div>
+        
+        <div class="create-post">
+            <h3>Create New Post</h3>
+            <form id="create-post-form">
+                <textarea id="post-content" placeholder="What's happening on your farm today?"></textarea>
+                <button type="submit">Post</button>
+                <div style="clear: both;"></div>
+            </form>
         </div>
-
-        <div class="post">
-            <div class="info">
-                <img src="./images/fgLogo1.png">
-                <div class="text">Pesky • 01/05/2025</div>
-            </div>
-            <hr>
-            <div class="content">
-                <div class="text">sometimes when I go to the washroom I play block blast and zone out so onetime I went to the washroom and my tummy was crumbly so I had intense diabetes and then I played blocblast for so long the teachers THOGHT I passed out and then they called 911 on me</div>
-            </div>
-        </div>
-
-        <div class="post">
-            <div class="info">
-                <img src="./images/fgLogo1.png">
-                <div class="text">Cozmo 2.0 • 01/18/2025</div>
-            </div>
-            <hr>
-            <div class="content">
-                <div class="text">I don't think pesky is ok</div>
-            </div>
-        </div>
-
+        
         <div class="cominfo">
             <div class="info">
                 <img src="./images/fgLogo1.png">
-                <div class="text">COMMUNITY NAME AH YEAH</div>
+                <div class="text">Farmagram Community</div>
+            </div>
+        </div>
+        
+        <div id="posts-container">
+            <div class="post">
+                <div class="info">
+                    <img src="./images/fgLogo1.png">
+                    <div class="text">Loading posts...</div>
+                </div>
+                <hr>
+                <div class="content">
+                    <div class="text">Please wait while we load posts...</div>
+                </div>
             </div>
         </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const token = localStorage.getItem('farmagramToken');
+            if (!token) {
+                window.location.href = '/signin';
+                return;
+            }
+            
+            loadPosts();
+            
+            const createPostForm = document.getElementById('create-post-form');
+            const statusMessage = document.getElementById('status-message');
+            
+            createPostForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const content = document.getElementById('post-content').value;
+                
+                if (!content.trim()) {
+                    showMessage('Post content cannot be empty.', 'error');
+                    return;
+                }
+                
+                fetch(`/api/posts`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({
+                        content: content
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        document.getElementById('post-content').value = '';
+                        showMessage('Post created successfully!', 'success');
+                    } else {
+                        showMessage(data.message || 'Failed to create post.', 'error');
+                    }
+                })
+                .catch(error => {
+                    showMessage('An error occurred. Please try again later.', 'error');
+                    console.error('Error:', error);
+                });
+            });
+            
+            fetch(`/api/user`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success && data.user) {
+                    const accountButton = document.querySelector('.buttons .acc');
+                    accountButton.textContent = data.user.username;
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching user info:', error);
+            });
+            
+            document.getElementById('logout-btn').addEventListener('click', function(e) {
+                e.preventDefault();
+                localStorage.removeItem('farmagramToken');
+                window.location.href = '/signin';
+            });
+        });
+        
+        function loadPosts() {
+            const token = localStorage.getItem('farmagramToken');
+            const postsContainer = document.getElementById('posts-container');
+            
+            fetch(`/api/posts`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success && data.posts) {
+                    postsContainer.innerHTML = '';
+                    
+                    data.posts.forEach(post => {
+                        const postElement = document.createElement('div');
+                        postElement.className = 'post';
+                        
+                        const formattedDate = new Date(post.createdAt).toLocaleDateString();
+                        
+                        postElement.innerHTML = `
+                            <div class="info">
+                                <img src="./images/fgLogo1.png">
+                                <div class="text">${post.username} • ${formattedDate}</div>
+                            </div>
+                            <hr>
+                            <div class="content">
+                                <div class="text">${post.content}</div>
+                            </div>
+                        `;
+                        
+                        postsContainer.appendChild(postElement);
+                    });
+                    
+                    if (data.posts.length === 0) {
+                        postsContainer.innerHTML = `
+                            <div class="post">
+                                <div class="content">
+                                    <div class="text" style="text-align: center;">No posts yet. Create the first one!</div>
+                                </div>
+                            </div>
+                        `;
+                    }
+                } else {
+                    showMessage(data.message || 'Failed to load posts.', 'error');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showMessage('An error occurred while loading posts.', 'error');
+            });
+        }
+        
+        function showMessage(message, type) {
+            const statusMessage = document.getElementById('status-message');
+            statusMessage.textContent = message;
+            statusMessage.className = 'status-message ' + type;
+            statusMessage.style.display = 'block';
+            
+            setTimeout(() => {
+                statusMessage.style.display = 'none';
+            }, 3000);
+        }
+    </script>
 </body>
 </html>
