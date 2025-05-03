@@ -1,49 +1,73 @@
-/* HEADER */
+/* Header styles for Farmagram */
+
 #header {
+    background-color: #fffbec;
+    border-bottom: 5px solid #2c6f00;
+    padding: 10px 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #fffbec;
-    padding: 10px;
-    padding-left: 20px;
-    padding-right: 20px;
-    /* border: 3px solid #2c6f00; */
-    border-bottom: 5px solid #2c6f00;
-    border-left: 5px solid #2c6f00; border-right: 5px solid #2c6f00;
-    border-bottom-right-radius: 15px; border-bottom-left-radius: 15px;
-    box-shadow: inset 2px 2px 10px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    position: sticky;
+    top: 0;
+    z-index: 100;
 }
+
 #header img {
-    width: 65px;
-    height: 65px;
+    height: 50px;
     border-radius: 10%;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.3);
+    transition: transform 0.2s ease;
 }
-#header .buttons {
+
+#header img:hover {
+    transform: scale(1.05);
+}
+
+.buttons {
     display: flex;
-    gap: 10px;
+    gap: 15px;
 }
-#header .buttons a {
-    text-decoration: none;
-    padding: 10px 15px;
+
+.buttons a {
     background: linear-gradient(to bottom, #2c6f00, #317a00);
-    color: #fff;
-    border-radius: 8px;
-    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
-}
-#header .buttons a:hover {
-    background: linear-gradient(to bottom, #317a00, #2c6f00);
-    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
-}
-#header .buttons a.acc {
+    color: white;
     text-decoration: none;
-    padding: 10px 15px;
-    background: linear-gradient(to bottom, #646464, #797979); /* Gray gradient */
-    color: #fff;
+    padding: 8px 15px;
     border-radius: 8px;
-    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
+    font-weight: bold;
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.3);
+    transition: all 0.2s ease;
 }
-#header .buttons a.acc:hover {
-    background: linear-gradient(to bottom, #797979, #646464); /* Hover effect */
-    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+
+.buttons a:hover {
+    background: linear-gradient(to bottom, #317a00, #2c6f00);
+    transform: translateY(-2px);
+    box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.buttons a.acc {
+    background: linear-gradient(to bottom, #805e00, #a67c00);
+}
+
+.buttons a.acc:hover {
+    background: linear-gradient(to bottom, #a67c00, #805e00);
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 768px) {
+    #header {
+        flex-direction: column;
+        padding: 10px;
+    }
+    
+    #header img {
+        margin-bottom: 10px;
+    }
+    
+    .buttons {
+        width: 100%;
+        justify-content: center;
+        margin-top: 10px;
+    }
 }
