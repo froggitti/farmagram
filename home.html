@@ -64,6 +64,7 @@
             }
             
             loadPosts();
+            // setInterval(loadPosts, 3000); //commented out cause cf is pay as you go or something
             
             const createPostForm = document.getElementById('create-post-form');
             const statusMessage = document.getElementById('status-message');
@@ -129,6 +130,8 @@
         function loadPosts() {
             const token = localStorage.getItem('farmagramToken');
             const postsContainer = document.getElementById('posts-container');
+
+            console.log("loading posts")
             
             fetch(`https://api.farmagram.xyz/posts`, {
                 headers: {
