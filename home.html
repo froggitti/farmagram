@@ -78,7 +78,7 @@
                     return;
                 }
                 
-                fetch(`/api/posts`, {
+                fetch(`https://api.farmagram.xyz/posts`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -130,7 +130,7 @@
             const token = localStorage.getItem('farmagramToken');
             const postsContainer = document.getElementById('posts-container');
             
-            fetch(`https://api.farmagram.xyz/api/posts`, {
+            fetch(`https://api.farmagram.xyz/posts`, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
