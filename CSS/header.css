@@ -57,17 +57,27 @@
 /* Responsive design for smaller screens */
 @media (max-width: 768px) {
     #header {
-        flex-direction: column;
+        /* flex-direction: column; */
+        flex-wrap: wrap;
         padding: 10px;
     }
     
     #header img {
-        margin-bottom: 10px;
+        /* margin-bottom: 10px; */
+        align-self: center;
     }
-    
-    .buttons {
+
+    .buttons a {
         width: 100%;
         justify-content: center;
-        margin-top: 10px;
+        /* margin-top: 10px; */
+    }
+
+    .buttons.communities {
+        display: none;
+    }
+    
+    .buttons.communitiesmobile {
+        display: block;
     }
 }

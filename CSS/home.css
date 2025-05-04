@@ -49,6 +49,10 @@ body {
     line-height: 1.5;
 }
 
+.post .content a {
+    color: #2c6f00
+}
+
 .post hr {
     border: none;
     height: 2px;
@@ -165,6 +169,14 @@ body {
     #page {
         padding: 0 10px;
     }
+
+    .cominfo {
+        margin-bottom: 15px
+    }
+
+    .post {
+        margin-bottom: 10px;
+    }
     
     .post .info {
         padding: 10px;
@@ -176,6 +188,7 @@ body {
     
     .create-post {
         padding: 15px;
+        margin-bottom: 10px
     }
     
     .create-post textarea {

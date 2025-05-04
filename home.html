@@ -11,12 +11,12 @@
 <body>
     <div id="header">
         <a href="/home.html"><img src="./images/fgLogo1.png" alt="Farmagram Logo"></a>
-        <div class="buttons">
+        <div class="buttons communities">
             <a href="#community1">Community 1</a>
             <a href="#community2">Community 2</a>
             <a href="#community3">Community 3</a>
         </div>
-        <div class="buttons">
+        <div class="buttons account">
             <a href="/account" class="acc">Account</a>
             <a href="#" id="logout-btn">Logout</a>
         </div>
@@ -25,6 +25,13 @@
     <div id="page">
         <div id="status-message" class="status-message"></div>
         
+        <div class="cominfo">
+            <div class="info">
+                <img src="./images/fgLogo1.png">
+                <div class="text">Farmagram Community</div>
+            </div>
+        </div>
+
         <div class="create-post">
             <h3>Create New Post</h3>
             <form id="create-post-form">
@@ -32,13 +39,6 @@
                 <button type="submit">Post</button>
                 <div style="clear: both;"></div>
             </form>
-        </div>
-        
-        <div class="cominfo">
-            <div class="info">
-                <img src="./images/fgLogo1.png">
-                <div class="text">Farmagram Community</div>
-            </div>
         </div>
         
         <div id="posts-container">
@@ -146,6 +146,10 @@
                         
                         const formattedDate = new Date(post.createdAt).toLocaleDateString();
                         
+                        var exp = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
+                        post.content = post.content.replace(exp,"<a href='$1'>$1</a>"); //uh, links i think?
+                        post.content = post.content.replace(/\*\*(.+?)\*\*(?!\*)/g,'<b>$1</b>').replace(/\*([^*><]+)\*/g,'<i>$1</i>'); //bold and italics
+
                         postElement.innerHTML = `
                             <div class="info">
                                 <img src="./images/fgLogo1.png">
@@ -156,7 +160,7 @@
                                 <div class="text">${post.content}</div>
                             </div>
                         `;
-                        
+
                         postsContainer.appendChild(postElement);
                     });
                     
