@@ -103,7 +103,7 @@
                 });
             });
             
-            fetch(`/api/user`, {
+            fetch(`https://api.farmagram.xyz/user`, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
@@ -130,7 +130,7 @@
             const token = localStorage.getItem('farmagramToken');
             const postsContainer = document.getElementById('posts-container');
             
-            fetch(`/api/posts`, {
+            fetch(`https://api.farmagram.xyz/api/posts`, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
