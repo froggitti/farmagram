@@ -149,10 +149,12 @@
                         
                         const formattedDate = new Date(post.createdAt).toLocaleDateString();
                         
-                        var exp = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
-                        post.content = post.content.replace(exp,"<a href='$1'>$1</a>"); //uh, links i think?
+                        post.content = post.content.replace(/\n/g, '<br>'); //newline
+                        post.content = post.content.replace(/(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig,"<a href='$1'>$1</a>"); //uh, links i think?
                         post.content = post.content.replace(/\*\*(.+?)\*\*(?!\*)/g,'<b>$1</b>').replace(/\*([^*><]+)\*/g,'<i>$1</i>'); //bold and italics
-
+                        post.content = post.content.replace(/~~(.+?)~~/g, '<s>$1</s>'); //strikethrough
+                        post.content = post.content.replace(/^\s*[-+*]\s+(.+)$/g, '<li>$1'); //bullet point?
+                        
                         postElement.innerHTML = `
                             <div class="info">
                                 <img src="./images/fgLogo1.png">
