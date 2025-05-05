@@ -62,6 +62,10 @@
                 window.location.href = '/signin';
                 return;
             }
+
+            if (!window.location.search.includes('com=')) {
+                window.location.href = `${window.location.pathname}?com=1`;
+            }
             
             loadPosts();
             // setInterval(loadPosts, 3000); //commented out cause cf is pay as you go or something
