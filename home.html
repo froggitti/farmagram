@@ -12,9 +12,9 @@
     <div id="header">
         <a href="/home.html"><img src="./images/fgLogo1.png" alt="Farmagram Logo"></a>
         <div class="buttons communities">
-            <a href="#community1">Community 1</a>
-            <a href="#community2">Community 2</a>
-            <a href="#community3">Community 3</a>
+            <a href="?com=1">Community 1</a>
+            <a href="?com=2">Community 2</a>
+            <a href="?com=3">Community 3</a>
         </div>
         <div class="buttons account">
             <a href="/account" class="acc">Account</a>
@@ -28,7 +28,7 @@
         <div class="cominfo">
             <div class="info">
                 <img src="./images/fgLogo1.png">
-                <div class="text">Farmagram Community</div>
+                <div class="text comTitle">Farmagram Community</div>
             </div>
         </div>
 
@@ -78,6 +78,8 @@
                     showMessage('Post content cannot be empty.', 'error');
                     return;
                 }
+
+                const currentCom = Number(new URLSearchParams(window.location.search).get('com'));
                 
                 fetch(`https://api.farmagram.xyz/posts`, {
                     method: 'POST',
@@ -86,7 +88,8 @@
                         'Authorization': `Bearer ${token}`
                     },
                     body: JSON.stringify({
-                        content: content
+                        content: content,
+                        com: currentCom
                     })
                 })
                 .then(response => response.json())
@@ -130,7 +133,8 @@
         function loadPosts() {
             const token = localStorage.getItem('farmagramToken');
             const postsContainer = document.getElementById('posts-container');
-
+            Number(postCount = 0);
+            
             console.log("loading posts")
             
             fetch(`https://api.farmagram.xyz/posts`, {
@@ -142,8 +146,18 @@
             .then(data => {
                 if (data.success && data.posts) {
                     postsContainer.innerHTML = '';
+
+                    const currentCom = Number(new URLSearchParams(window.location.search).get('com'));
+                    console.log(currentCom)
                     
                     data.posts.forEach(post => {
+                        const com = post.comID ?? 1;
+                        if(com !== currentCom)
+                        {
+                            console.log("breh", com, currentCom);
+                            return;
+                        }
+
                         const postElement = document.createElement('div');
                         postElement.className = 'post';
                         
@@ -165,11 +179,12 @@
                                 <div class="text">${post.content}</div>
                             </div>
                         `;
-
+                        
+                        postCount++;
                         postsContainer.appendChild(postElement);
                     });
                     
-                    if (data.posts.length === 0) {
+                    if (postCount === 0) {
                         postsContainer.innerHTML = `
                             <div class="post">
                                 <div class="content">
