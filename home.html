@@ -7,17 +7,258 @@
     <link rel="shortcut icon" type="image/x-icon" href="./images/Favicon.ico">
     <link rel="stylesheet" href="./CSS/header.css">
     <link rel="stylesheet" href="./CSS/home.css">
+    <style>
+        .community-add-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            background: #2c6f00;
+            color: white;
+            border-radius: 50%;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.2s ease;
+            margin-left: 10px;
+            vertical-align: middle;
+        }
+
+        .community-add-btn:hover {
+            background: #317a00;
+            transform: scale(1.1);
+            color: white;
+            text-decoration: none;
+        }
+
+        .community-modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: url('images/xp.jpg') no-repeat center center fixed;
+            background-size: cover;
+        }
+
+        .community-modal-content {
+            width: 500px;
+            margin: 10% auto;
+            background-color: #fffbec;
+            border: 10px solid #2c6f00;
+            border-radius: 15px;
+            box-shadow: 10px 10px 30px rgba(0, 0, 0, 0.4);
+            padding: 30px;
+            text-align: center;
+            font-family: "Times New Roman", Times, serif;
+            color: #215300;
+        }
+
+        .community-modal h2 {
+            margin: 0 0 20px 0;
+            font-size: 24px;
+            text-shadow: 2px 2px #00000057;
+        }
+
+        .community-form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .community-form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .community-form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #2c6f00;
+            border-radius: 8px;
+            background: linear-gradient(to bottom, #ffffff, #eaeaea);
+            box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.2);
+            font-family: "Times New Roman", Times, serif;
+        }
+
+        .community-modal-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 25px;
+        }
+
+        .community-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: "Times New Roman", Times, serif;
+            font-weight: bold;
+            transition: all 0.2s ease;
+        }
+
+        .community-btn.primary {
+            background: linear-gradient(to bottom, #2c6f00, #317a00);
+            color: white;
+            box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .community-btn.primary:hover {
+            background: linear-gradient(to bottom, #317a00, #2c6f00);
+        }
+
+        .community-btn.secondary {
+            background: linear-gradient(to bottom, #cccccc, #999999);
+            color: #333;
+            box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .community-btn.secondary:hover {
+            background: linear-gradient(to bottom, #999999, #cccccc);
+        }
+
+        .reaction-modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.6);
+        }
+
+        .reaction-modal-content {
+            background-color: #fffbec;
+            margin: 20% auto;
+            padding: 25px;
+            border: 5px solid #2c6f00;
+            border-radius: 15px;
+            width: 400px;
+            text-align: center;
+            font-family: "Times New Roman", Times, serif;
+            color: #215300;
+            box-shadow: 10px 10px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .reaction-modal h3 {
+            margin: 0 0 20px 0;
+            font-size: 20px;
+            text-shadow: 1px 1px #00000030;
+        }
+
+        .emoji-picker {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .emoji-option {
+            padding: 15px;
+            border: 2px solid #2c6f00;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 24px;
+            text-align: center;
+            background: linear-gradient(to bottom, #ffffff, #f0f0f0);
+            transition: all 0.2s ease;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .emoji-option:hover {
+            background: linear-gradient(to bottom, #e8f5e8, #d4efd4);
+            transform: scale(1.05);
+            box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .post-actions {
+            display: flex;
+            gap: 20px;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 2px solid #e8f5e8;
+        }
+
+        .post-action {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #2c6f00;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 14px;
+            font-weight: bold;
+            padding: 5px 10px;
+            border-radius: 8px;
+            background: linear-gradient(to bottom, #f8fff8, #f0f8f0);
+            border: 1px solid #d4efd4;
+        }
+
+        .post-action:hover {
+            background: linear-gradient(to bottom, #e8f5e8, #d4efd4);
+            transform: translateY(-1px);
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .post-action.delete:hover {
+            background: linear-gradient(to bottom, #ffebee, #ffcdd2);
+            color: #c62828;
+            border-color: #ffcdd2;
+        }
+
+        .reactions {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+            flex-wrap: wrap;
+        }
+
+        .reaction {
+            background: linear-gradient(to bottom, #f8fff8, #f0f8f0);
+            border: 2px solid #d4efd4;
+            border-radius: 12px;
+            padding: 6px 12px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-weight: bold;
+            color: #2c6f00;
+        }
+
+        .reaction:hover {
+            background: linear-gradient(to bottom, #e8f5e8, #d4efd4);
+            transform: translateY(-1px);
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .reaction.user-reacted {
+            background: linear-gradient(to bottom, #2c6f00, #317a00);
+            border-color: #2c6f00;
+            color: white;
+        }
+
+        .reaction.user-reacted:hover {
+            background: linear-gradient(to bottom, #317a00, #3d8b00);
+        }
+
+        .community-management {
+            display: none !important;
+        }
+    </style>
 </head>
 <body>
     <div id="header">
         <a href="/home.html"><img src="./images/fgLogo1.png" alt="Farmagram Logo"></a>
         <div class="buttons communities">
-            <a href="?com=1">Community 1</a>
-            <a href="?com=2">Community 2</a>
-            <a href="?com=3">Community 3</a>
+            <a href="#" class="community-add-btn" onclick="openCommunityModal()" title="Add Community">+</a>
         </div>
         <div class="buttons account">
-            <a href="/account" class="acc">Account</a>
+            <a href="#" class="acc" id="account-btn">Account</a>
             <a href="#" id="logout-btn">Logout</a>
         </div>
     </div>
@@ -55,168 +296,564 @@
         </div>
     </div>
 
+    <div id="community-modal" class="community-modal">
+        <div class="community-modal-content">
+            <h2>🌱 Create New Community</h2>
+            <p>Add a new farming community to bring growers together!</p>
+            
+            <div class="community-form-group">
+                <label for="community-name">Community Name:</label>
+                <input type="text" id="community-name" placeholder="e.g., Organic Vegetables, Livestock Care, Farm Equipment">
+            </div>
+            
+            <div class="community-form-group">
+                <label for="community-description">Description:</label>
+                <input type="text" id="community-description" placeholder="What will this community discuss?">
+            </div>
+            
+            <div class="community-modal-buttons">
+                <button class="community-btn secondary" onclick="closeCommunityModal()">Cancel</button>
+                <button class="community-btn primary" onclick="createCommunity()">Create Community</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="reaction-modal" class="reaction-modal">
+        <div class="reaction-modal-content">
+            <h3>🚜 React to this post!</h3>
+            <div class="emoji-picker">
+                <div class="emoji-option" onclick="addReaction('👍')" title="Like">👍</div>
+                <div class="emoji-option" onclick="addReaction('❤️')" title="Love">❤️</div>
+                <div class="emoji-option" onclick="addReaction('😄')" title="Happy">😄</div>
+                <div class="emoji-option" onclick="addReaction('🌱')" title="Growing">🌱</div>
+                <div class="emoji-option" onclick="addReaction('🚜')" title="Farming">🚜</div>
+                <div class="emoji-option" onclick="addReaction('🐄')" title="Livestock">🐄</div>
+                <div class="emoji-option" onclick="addReaction('🌽')" title="Crops">🌽</div>
+                <div class="emoji-option" onclick="addReaction('🐔')" title="Poultry">🐔</div>
+                <div class="emoji-option" onclick="addReaction('🥕')" title="Vegetables">🥕</div>
+                <div class="emoji-option" onclick="addReaction('🌾')" title="Harvest">🌾</div>
+                <div class="emoji-option" onclick="addReaction('🐷')" title="Pigs">🐷</div>
+                <div class="emoji-option" onclick="addReaction('🍅')" title="Fresh Produce">🍅</div>
+            </div>
+            <button class="community-btn secondary" onclick="closeReactionModal()">Cancel</button>
+        </div>
+    </div>
+
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
     <script>
+        let socket;
+        let currentUser = null;
+        let currentChannelId = '68516cc6ecfabe350de94cb3';
+        let currentReactionMessageId = null;
+        let userChannels = [];
+        let isAdmin = false;
+        
+        const LLUMEN_API = 'https://direct.api.llumen.app';
+        const FARMAGRAM_SERVER_ID = '68516cc6ecfabe350de94cb0';
+
         document.addEventListener('DOMContentLoaded', function() {
             const token = localStorage.getItem('farmagramToken');
             if (!token) {
-                window.location.href = '/signin';
+                window.location.href = '/signin.html';
+                return;
+            }
+            initializeApp();
+        });
+
+        async function initializeApp() {
+            try {
+                const userResponse = await fetch(`${LLUMEN_API}/api/auth/me`, {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('farmagramToken')}`
+                    }
+                });
+
+                if (!userResponse.ok) {
+                    throw new Error('Failed to get user');
+                }
+
+                currentUser = (await userResponse.json()).data;
+                document.getElementById('account-btn').textContent = currentUser.username;
+
+                await loadCommunities();
+
+                const urlParams = new URLSearchParams(window.location.search);
+                const comParam = urlParams.get('com');
+                if (comParam && userChannels[parseInt(comParam) - 1]) {
+                    currentChannelId = userChannels[parseInt(comParam) - 1].id;
+                }
+
+                await checkAdminStatus();
+                initializeSocket();
+                await loadPosts();
+
+                document.getElementById('create-post-form').addEventListener('submit', createPost);
+                document.getElementById('logout-btn').addEventListener('click', logout);
+
+            } catch (error) {
+                showMessage('Failed to initialize app. Please try logging in again.', 'error');
+                setTimeout(() => {
+                    localStorage.removeItem('farmagramToken');
+                    window.location.href = '/signin.html';
+                }, 2000);
+            }
+        }
+
+        function initializeSocket() {
+            socket = io(LLUMEN_API, {
+                auth: {
+                    token: localStorage.getItem('farmagramToken')
+                },
+                transports: ['websocket', 'polling'],
+                timeout: 20000
+            });
+
+            socket.on('connect', () => {
+                socket.emit('join_channel', { channelId: currentChannelId });
+            });
+
+            socket.on('disconnect', (reason) => {
+                setTimeout(() => {
+                    socket.connect();
+                }, 5000);
+            });
+
+            socket.on('new_message', (message) => {
+                if (message.channelId === currentChannelId) {
+                    addMessageToUI(message);
+                }
+            });
+
+            socket.on('reaction_update', (data) => {
+                if (data.messageId) {
+                    updateReactionsInUI(data.messageId, data.reactions);
+                }
+            });
+
+            socket.on('message_deleted', (data) => {
+                removeMessageFromUI(data._id);
+            });
+        }
+
+        async function loadCommunities() {
+            try {
+                const response = await fetch(`${LLUMEN_API}/api/servers/${FARMAGRAM_SERVER_ID}/channels`, {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('farmagramToken')}`
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to load communities');
+                }
+
+                const data = await response.json();
+                const channels = data.data.filter(channel => channel.type === 'text' && channel.name !== 'announcements');
+                
+                userChannels = channels.map(channel => ({
+                    id: channel._id,
+                    name: channel.name
+                }));
+
+                const communitiesDiv = document.querySelector('.buttons.communities');
+                const communityLinks = channels.map((channel, index) => 
+                    `<a href="?com=${index + 1}">${channel.name}</a>`
+                ).join('');
+                
+                communitiesDiv.innerHTML = communityLinks + '<a href="#" class="community-add-btn" onclick="openCommunityModal()" title="Add Community">+</a>';
+
+            } catch (error) {
+                showMessage('Failed to load communities', 'error');
+            }
+        }
+
+        async function checkAdminStatus() {
+            try {
+                const response = await fetch(`${LLUMEN_API}/api/servers/${FARMAGRAM_SERVER_ID}`, {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('farmagramToken')}`
+                    }
+                });
+
+                if (response.ok) {
+                    const serverData = await response.json();
+                    const server = serverData.data;
+                    
+                    if (server.ownerId === currentUser._id) {
+                        isAdmin = true;
+                    }
+                }
+            } catch (error) {
+            }
+        }
+
+        function openCommunityModal() {
+            if (!isAdmin) {
+                showMessage('Only admins can create new communities', 'error');
+                return;
+            }
+            document.getElementById('community-modal').style.display = 'block';
+        }
+
+        function closeCommunityModal() {
+            document.getElementById('community-modal').style.display = 'none';
+            document.getElementById('community-name').value = '';
+            document.getElementById('community-description').value = '';
+        }
+
+        async function createCommunity() {
+            const name = document.getElementById('community-name').value.trim();
+            const description = document.getElementById('community-description').value.trim();
+            
+            if (!name) {
+                showMessage('Please enter a community name', 'error');
                 return;
             }
 
-            if (!window.location.search.includes('com=')) {
-                window.location.href = `${window.location.pathname}?com=1`;
-            }
-            
-            loadPosts();
-            setInterval(loadPosts, 3000); //commented out cause cf is pay as you go or something
-            
-            const createPostForm = document.getElementById('create-post-form');
-            const statusMessage = document.getElementById('status-message');
-            
-            createPostForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                const content = document.getElementById('post-content').value;
-                
-                if (!content.trim()) {
-                    showMessage('Post content cannot be empty.', 'error');
-                    return;
-                }
-
-                const currentCom = Number(new URLSearchParams(window.location.search).get('com'));
-                
-                fetch(`https://api.farmagram.xyz/posts`, {
+            try {
+                const response = await fetch(`${LLUMEN_API}/api/servers/${FARMAGRAM_SERVER_ID}/channels`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
+                        'Authorization': `Bearer ${localStorage.getItem('farmagramToken')}`
                     },
                     body: JSON.stringify({
-                        content: content,
-                        com: currentCom
+                        name: name.toLowerCase().replace(/\s+/g, '-'),
+                        description: description || `${name} community channel`,
+                        type: 'text'
                     })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        document.getElementById('post-content').value = '';
-                        showMessage('Post created successfully!', 'success');
-                    } else {
-                        showMessage(data.message || 'Failed to create post.', 'error');
-                    }
-                })
-                .catch(error => {
-                    showMessage('An error occurred. Please try again later.', 'error');
-                    console.error('Error:', error);
                 });
-            });
-            
-            fetch(`https://api.farmagram.xyz/user`, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success && data.user) {
-                    const accountButton = document.querySelector('.buttons .acc');
-                    accountButton.textContent = data.user.username;
-                }
-            })
-            .catch(error => {
-                console.error('Error fetching user info:', error);
-            });
-            
-            document.getElementById('logout-btn').addEventListener('click', function(e) {
-                e.preventDefault();
-                localStorage.removeItem('farmagramToken');
-                window.location.href = '/signin';
-            });
-        });
-        
-        function loadPosts() {
-            const token = localStorage.getItem('farmagramToken');
-            const postsContainer = document.getElementById('posts-container');
-            Number(postCount = 0);
-            
-            console.log("loading posts")
-            
-            fetch(`https://api.farmagram.xyz/posts`, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success && data.posts) {
-                    postsContainer.innerHTML = '';
 
-                    const currentCom = Number(new URLSearchParams(window.location.search).get('com'));
-                    console.log(currentCom)
-                    
-                    data.posts.forEach(post => {
-                        const com = post.comID ?? 1;
-                        if(com !== currentCom)
-                        {
-                            console.log("breh", com, currentCom);
-                            return;
-                        }
-
-                        const postElement = document.createElement('div');
-                        postElement.className = 'post';
-                        
-                        const formattedDate = new Date(post.createdAt).toLocaleDateString();
-                        
-                        post.content = post.content.replace(/\n/g, '<br>'); //newline
-                        post.content = post.content.replace(/(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig,"<a href='$1'>$1</a>"); //uh, links i think?
-                        post.content = post.content.replace(/\*\*(.+?)\*\*(?!\*)/g,'<b>$1</b>').replace(/\*([^*><]+)\*/g,'<i>$1</i>'); //bold and italics
-                        post.content = post.content.replace(/~~(.+?)~~/g, '<s>$1</s>'); //strikethrough
-                        post.content = post.content.replace(/^\s*[-+*]\s+(.+)$/g, '<li>$1'); //bullet point?
-                        
-                        postElement.innerHTML = `
-                            <div class="info">
-                                <img src="./images/fgLogo1.png">
-                                <div class="text">${post.username} • ${formattedDate}</div>
-                            </div>
-                            <hr>
-                            <div class="content">
-                                <div class="text">${post.content}</div>
-                            </div>
-                        `;
-                        
-                        postCount++;
-                        postsContainer.appendChild(postElement);
-                    });
-                    
-                    if (postCount === 0) {
-                        postsContainer.innerHTML = `
-                            <div class="post">
-                                <div class="content">
-                                    <div class="text" style="text-align: center;">No posts yet. Create the first one!</div>
-                                </div>
-                            </div>
-                        `;
-                    }
+                if (response.ok) {
+                    showMessage('Community created successfully! 🌱', 'success');
+                    closeCommunityModal();
+                    await loadCommunities();
                 } else {
-                    showMessage(data.message || 'Failed to load posts.', 'error');
+                    const error = await response.json();
+                    showMessage(error.error || 'Failed to create community', 'error');
                 }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                showMessage('An error occurred while loading posts.', 'error');
-            });
+            } catch (error) {
+                showMessage('Failed to create community', 'error');
+            }
         }
-        
-        function showMessage(message, type) {
-            const statusMessage = document.getElementById('status-message');
-            statusMessage.textContent = message;
-            statusMessage.className = 'status-message ' + type;
-            statusMessage.style.display = 'block';
+
+        async function loadPosts() {
+            try {
+                const response = await fetch(`${LLUMEN_API}/api/channels/${currentChannelId}/messages?limit=50`, {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('farmagramToken')}`
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to load posts');
+                }
+
+                const data = await response.json();
+                const messages = data.data || [];
+
+                const postsContainer = document.getElementById('posts-container');
+                
+                if (messages.length === 0) {
+                    postsContainer.innerHTML = `
+                        <div class="post">
+                            <div class="content">
+                                <div class="text" style="text-align: center;">No posts yet. Create the first one! 🌱</div>
+                            </div>
+                        </div>
+                    `;
+                    return;
+                }
+
+                postsContainer.innerHTML = '';
+                messages.forEach(message => addMessageToUI(message));
+
+            } catch (error) {
+                showMessage('Failed to load posts', 'error');
+            }
+        }
+
+        function addMessageToUI(message) {
+            const postsContainer = document.getElementById('posts-container');
             
-            setTimeout(() => {
-                statusMessage.style.display = 'none';
-            }, 3000);
-        }
-    </script>
+            if (document.querySelector(`[data-message-id="${message._id}"]`)) {
+                return;
+            }
+            
+            const postElement = document.createElement('div');
+            postElement.className = 'post';
+            postElement.setAttribute('data-message-id', message._id);
+            
+            const formattedDate = new Date(message.createdAt).toLocaleString();
+            
+            let content = message.content || '';
+            content = content.replace(/\n/g, '<br>');
+            content = content.replace(/(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig, "<a href='$1' target='_blank'>$1</a>");
+            content = content.replace(/\*\*(.+?)\*\*(?!\*)/g, '<b>$1</b>').replace(/\*([^*><]+)\*/g, '<i>$1</i>');
+            content = content.replace(/~~(.+?)~~/g, '<s>$1</s>');
+
+            let reactionsHTML = '';
+            if (message.reactions && message.reactions.length > 0) {
+                reactionsHTML = '<div class="reactions">';
+                message.reactions.forEach(reaction => {
+                    const userReacted = reaction.userIds.includes(currentUser._id);
+                    reactionsHTML += `
+                        <div class="reaction ${userReacted ? 'user-reacted' : ''}" 
+                             onclick="toggleReaction('${message._id}', '${reaction.emoji}')">
+                            ${reaction.emoji} ${reaction.userIds.length}
+                        </div>
+                    `;
+                });
+                reactionsHTML += '</div>';
+            }
+
+            let actionsHTML = `
+                <div class="post-actions">
+                    <div class="post-action" onclick="openReactionModal('${message._id}')">
+                        🌱 React
+                    </div>
+            `;
+
+            if (message.senderId._id === currentUser._id) {
+                actionsHTML += `
+                    <div class="post-action delete" onclick="deletePost('${message._id}')">
+                        🗑️ Delete
+                    </div>
+                `;
+            }
+            actionsHTML += '</div>';
+            
+            postElement.innerHTML = `
+               <div class="info">
+                   <img src="${message.senderId.avatarUrl || './images/fgLogo1.png'}" alt="Avatar">
+                   <div class="text">${message.senderId.displayName || message.senderId.username} • ${formattedDate}</div>
+               </div>
+               <hr>
+               <div class="content">
+                   <div class="text">${content}</div>
+                   ${reactionsHTML}
+                   ${actionsHTML}
+               </div>
+           `;
+           
+           postsContainer.insertBefore(postElement, postsContainer.firstChild);
+       }
+
+       function removeMessageFromUI(messageId) {
+           const messageElement = document.querySelector(`[data-message-id="${messageId}"]`);
+           if (messageElement) {
+               messageElement.remove();
+           }
+       }
+
+       function updateReactionsInUI(messageId, reactions) {
+           const messageElement = document.querySelector(`[data-message-id="${messageId}"]`);
+           if (!messageElement) {
+               return;
+           }
+
+           const existingReactions = messageElement.querySelector('.reactions');
+           if (existingReactions) {
+               existingReactions.remove();
+           }
+
+           if (reactions && reactions.length > 0) {
+               let reactionsHTML = '<div class="reactions">';
+               reactions.forEach(reaction => {
+                   const userReacted = reaction.userIds.includes(currentUser._id);
+                   reactionsHTML += `
+                       <div class="reaction ${userReacted ? 'user-reacted' : ''}" 
+                            onclick="toggleReaction('${messageId}', '${reaction.emoji}')">
+                           ${reaction.emoji} ${reaction.userIds.length}
+                       </div>
+                   `;
+               });
+               reactionsHTML += '</div>';
+
+               const contentDiv = messageElement.querySelector('.content .text');
+               contentDiv.insertAdjacentHTML('afterend', reactionsHTML);
+           }
+       }
+
+       async function createPost(e) {
+           e.preventDefault();
+           
+           const content = document.getElementById('post-content').value.trim();
+           
+           if (!content) {
+               showMessage('Post content cannot be empty.', 'error');
+               return;
+           }
+
+           try {
+               const response = await fetch(`${LLUMEN_API}/api/channels/${currentChannelId}/messages`, {
+                   method: 'POST',
+                   headers: {
+                       'Content-Type': 'application/json',
+                       'Authorization': `Bearer ${localStorage.getItem('farmagramToken')}`
+                   },
+                   body: JSON.stringify({ content })
+               });
+
+               if (response.ok) {
+                   document.getElementById('post-content').value = '';
+                   showMessage('Post created successfully! 🚜', 'success');
+               } else {
+                   const error = await response.json();
+                   showMessage(error.error || 'Failed to create post.', 'error');
+               }
+           } catch (error) {
+               showMessage('An error occurred. Please try again later.', 'error');
+           }
+       }
+
+       function openReactionModal(messageId) {
+           currentReactionMessageId = messageId;
+           document.getElementById('reaction-modal').style.display = 'block';
+       }
+
+       function closeReactionModal() {
+           document.getElementById('reaction-modal').style.display = 'none';
+           currentReactionMessageId = null;
+       }
+
+       async function addReaction(emoji) {
+           if (!currentReactionMessageId) {
+               return;
+           }
+           
+           if (!socket || !socket.connected) {
+               showMessage('Connection lost. Please refresh the page.', 'error');
+               return;
+           }
+
+           socket.emit('add_reaction', {
+               messageId: currentReactionMessageId,
+               emoji: emoji
+           });
+
+           closeReactionModal();
+       }
+
+       async function toggleReaction(messageId, emoji) {
+           if (!socket || !socket.connected) {
+               showMessage('Connection lost. Please refresh the page.', 'error');
+               return;
+           }
+
+           socket.emit('add_reaction', {
+               messageId: messageId,
+               emoji: emoji
+           });
+       }
+
+       async function deletePost(messageId) {
+           if (!confirm('Are you sure you want to delete this post? 🗑️')) {
+               return;
+           }
+
+           try {
+               const response = await fetch(`${LLUMEN_API}/api/messages/${messageId}`, {
+                   method: 'DELETE',
+                   headers: {
+                       'Authorization': `Bearer ${localStorage.getItem('farmagramToken')}`
+                   }
+               });
+
+               if (response.ok) {
+                   showMessage('Post deleted successfully! ✅', 'success');
+               } else {
+                   const error = await response.json();
+                   showMessage(error.error || 'Failed to delete post.', 'error');
+               }
+          } catch (error) {
+              showMessage('An error occurred. Please try again later.', 'error');
+          }
+      }
+
+      function logout() {
+          localStorage.removeItem('farmagramToken');
+          if (socket) {
+              socket.disconnect();
+          }
+          window.location.href = '/signin.html';
+      }
+      
+      function showMessage(message, type) {
+          const statusMessage = document.getElementById('status-message');
+          statusMessage.textContent = message;
+          statusMessage.className = 'status-message ' + type;
+          statusMessage.style.display = 'block';
+          
+          setTimeout(() => {
+              statusMessage.style.display = 'none';
+          }, 3000);
+      }
+
+      window.onclick = function(event) {
+          const reactionModal = document.getElementById('reaction-modal');
+          const communityModal = document.getElementById('community-modal');
+          
+          if (event.target === reactionModal) {
+              closeReactionModal();
+          }
+          if (event.target === communityModal) {
+              closeCommunityModal();
+          }
+      }
+
+      window.addEventListener('popstate', function() {
+          const urlParams = new URLSearchParams(window.location.search);
+          const comParam = urlParams.get('com');
+          if (comParam && userChannels[parseInt(comParam) - 1]) {
+              const newChannelId = userChannels[parseInt(comParam) - 1].id;
+              if (newChannelId !== currentChannelId) {
+                  if (socket && socket.connected) {
+                      socket.emit('leave_channel', { channelId: currentChannelId });
+                  }
+                  
+                  currentChannelId = newChannelId;
+                  
+                  if (socket && socket.connected) {
+                      socket.emit('join_channel', { channelId: currentChannelId });
+                  }
+                  
+                  loadPosts();
+              }
+          }
+      });
+
+      document.addEventListener('click', function(e) {
+          if (e.target.href && e.target.href.includes('?com=')) {
+              e.preventDefault();
+              const url = new URL(e.target.href);
+              const comParam = url.searchParams.get('com');
+              
+              if (comParam && userChannels[parseInt(comParam) - 1]) {
+                  const newChannelId = userChannels[parseInt(comParam) - 1].id;
+                  if (newChannelId !== currentChannelId) {
+                      if (socket && socket.connected) {
+                          socket.emit('leave_channel', { channelId: currentChannelId });
+                      }
+                      
+                      currentChannelId = newChannelId;
+                      
+                      if (socket && socket.connected) {
+                          socket.emit('join_channel', { channelId: currentChannelId });
+                      }
+                      
+                      loadPosts();
+                      window.history.pushState({}, '', url.pathname + url.search);
+                  }
+              }
+          }
+      });
+
+      setInterval(() => {
+          if (socket && !socket.connected) {
+              socket.connect();
+          }
+      }, 30000);
+  </script>
 </body>
 </html>

@@ -100,59 +100,6 @@
             color: #a94442;
         }
     </style>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const form = document.getElementById('signin-form');
-            const statusMessage = document.getElementById('status-message');
-            
-            form.addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                const email = document.getElementById('email').value;
-                const password = document.getElementById('password').value;
-                
-                if (!email || !password) {
-                    showMessage('Please fill in all fields.', 'error');
-                    return;
-                }
-                
-                fetch('https://api.farmagram.xyz/signin', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        email: email,
-                        password: password
-                    })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        showMessage('Login successful! Redirecting...', 'success');
-                        if (data.token) {
-                            localStorage.setItem('farmagramToken', data.token);
-                        }
-                        setTimeout(() => {
-                            window.location.href = '/home.html';
-                        }, 1000);
-                    } else {
-                        showMessage(data.message || 'Invalid email or password.', 'error');
-                    }
-                })
-                .catch(error => {
-                    showMessage('An error occurred. Please try again later.', 'error');
-                    console.error('Error:', error);
-                });
-            });
-            
-            function showMessage(message, type) {
-                statusMessage.textContent = message;
-                statusMessage.className = 'status-message ' + type;
-                statusMessage.style.display = 'block';
-            }
-        });
-    </script>
 </head>
 <body>
     <div id="wrapper">
@@ -169,8 +116,8 @@
             <form id="signin-form">
                 <table>
                     <tr>
-                        <td><label for="email">Email:</label></td>
-                        <td><input type="email" id="email" name="email" required></td>
+                        <td><label for="username">Username:</label></td>
+                        <td><input type="text" id="username" name="username" required></td>
                     </tr>
                     <tr>
                         <td><label for="password">Password:</label></td>
@@ -185,8 +132,92 @@
             </form>
         </div>
         <div id="footer">
-            <p>© 2025 Farmagram | <a href="/signup.html">Sign Up</a></p>
+            <p>© 2025 Farmagram LLC | <a href="/signup.html">Sign Up</a></p>
         </div>
     </div>
+
+    <script>
+        const LLUMEN_API = 'https://direct.api.llumen.app';
+        const FARMAGRAM_INVITE_CODE = '78928b7fa6ca0c13';
+        
+        function showMessage(message, type) {
+            const statusMessage = document.getElementById('status-message');
+            statusMessage.textContent = message;
+            statusMessage.className = 'status-message ' + type;
+            statusMessage.style.display = 'block';
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const token = localStorage.getItem('farmagramToken');
+            if (token) {
+                window.location.href = '/home.html';
+                return;
+            }
+
+            const form = document.getElementById('signin-form');
+            
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const username = document.getElementById('username').value;
+                const password = document.getElementById('password').value;
+                
+                if (!username || !password) {
+                    showMessage('Please fill in all fields.', 'error');
+                    return;
+                }
+                
+                signIn(username, password);
+            });
+        });
+
+        async function signIn(username, password) {
+            try {
+                showMessage('Signing in...', 'success');
+                
+                const response = await fetch(`${LLUMEN_API}/api/auth/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        username: username,
+                        password: password
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    localStorage.setItem('farmagramToken', data.token);
+                    await autoJoinFarmagramServer(data.token);
+                    showMessage('Login successful! Redirecting...', 'success');
+                    setTimeout(() => {
+                        window.location.href = '/home.html';
+                    }, 1000);
+                } else {
+                    showMessage(data.error || 'Invalid username or password.', 'error');
+                }
+            } catch (error) {
+                showMessage('An error occurred. Please try again later.', 'error');
+            }
+        }
+
+        async function autoJoinFarmagramServer(token) {
+            try {
+                await fetch(`${LLUMEN_API}/api/servers/join`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({
+                        inviteCode: FARMAGRAM_INVITE_CODE
+                    })
+                });
+            } catch (error) {
+            }
+        }
+    </script>
 </body>
 </html>

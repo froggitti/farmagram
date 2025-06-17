@@ -100,69 +100,6 @@
             color: #a94442;
         }
     </style>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const form = document.getElementById('signup-form');
-            const statusMessage = document.getElementById('status-message');
-            
-            form.addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                const email = document.getElementById('email').value;
-                const username = document.getElementById('username').value;
-                const password = document.getElementById('password').value;
-                
-                if (!email || !username || !password) {
-                    showMessage('Please fill in all fields.', 'error');
-                    return;
-                }
-                
-                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                if (!emailRegex.test(email)) {
-                    showMessage('Please enter a valid email address.', 'error');
-                    return;
-                }
-                
-                if (password.length < 6) {
-                    showMessage('Password must be at least 6 characters long.', 'error');
-                    return;
-                }
-                
-                fetch('https://api.farmagram.xyz/signup', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        email: email,
-                        username: username,
-                        password: password
-                    })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        showMessage('Account created successfully! Redirecting to login...', 'success');
-                        setTimeout(() => {
-                            window.location.href = '/signin';
-                        }, 2000);
-                    } else {
-                        showMessage(data.message || 'Failed to create account. Please try again.', 'error');
-                    }
-                })
-                .catch(error => {
-                    showMessage('An error occurred. Please try again later.', 'error');
-                    console.error('Error:', error);
-                });
-            });
-            
-            function showMessage(message, type) {
-                statusMessage.textContent = message;
-                statusMessage.className = 'status-message ' + type;
-                statusMessage.style.display = 'block';
-            }
-        });
-    </script>
 </head>
 <body>
     <div id="wrapper">
@@ -199,8 +136,105 @@
             </form>
         </div>
         <div id="footer">
-            <p>© 2025 Farmagram | <a href="/signin.html">Sign In</a></p>
+            <p>© 2025 Farmagram LLC | <a href="/signin.html">Sign In</a></p>
         </div>
     </div>
+
+    <script>
+        const LLUMEN_API = 'https://direct.api.llumen.app';
+        const FARMAGRAM_INVITE_CODE = '78928b7fa6ca0c13';
+        
+        function showMessage(message, type) {
+            const statusMessage = document.getElementById('status-message');
+            statusMessage.textContent = message;
+            statusMessage.className = 'status-message ' + type;
+            statusMessage.style.display = 'block';
+        }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            const token = localStorage.getItem('farmagramToken');
+            if (token) {
+                window.location.href = '/home.html';
+                return;
+            }
+
+            const form = document.getElementById('signup-form');
+            
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const email = document.getElementById('email').value;
+                const username = document.getElementById('username').value;
+                const password = document.getElementById('password').value;
+                
+                if (!email || !username || !password) {
+                    showMessage('Please fill in all fields.', 'error');
+                    return;
+                }
+                
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(email)) {
+                    showMessage('Please enter a valid email address.', 'error');
+                    return;
+                }
+                
+                if (password.length < 6) {
+                    showMessage('Password must be at least 6 characters long.', 'error');
+                    return;
+                }
+                
+                signUp(email, username, password);
+            });
+        });
+
+        async function signUp(email, username, password) {
+            try {
+                showMessage('Creating account...', 'success');
+                
+                const response = await fetch(`${LLUMEN_API}/api/auth/register`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        email: email,
+                        username: username,
+                        password: password
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    localStorage.setItem('farmagramToken', data.token);
+                    await autoJoinFarmagramServer(data.token);
+                    showMessage('Account created successfully! Redirecting...', 'success');
+                    setTimeout(() => {
+                        window.location.href = '/home.html';
+                    }, 2000);
+                } else {
+                    showMessage(data.error || 'Failed to create account. Please try again.', 'error');
+                }
+            } catch (error) {
+                showMessage('An error occurred. Please try again later.', 'error');
+            }
+        }
+
+        async function autoJoinFarmagramServer(token) {
+            try {
+                await fetch(`${LLUMEN_API}/api/servers/join`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({
+                        inviteCode: FARMAGRAM_INVITE_CODE
+                    })
+                });
+            } catch (error) {
+            }
+        }
+    </script>
 </body>
 </html>
