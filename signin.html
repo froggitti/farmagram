@@ -132,7 +132,7 @@
             </form>
         </div>
         <div id="footer">
-            <p>© 2025 Farmagram LLC | <a href="/signup.html">Sign Up</a></p>
+            <p>© 2025 Farmagram LLC | <a href="/signup">Sign Up</a></p>
         </div>
     </div>
 
@@ -150,7 +150,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             const token = localStorage.getItem('farmagramToken');
             if (token) {
-                window.location.href = '/home.html';
+                window.location.href = '/home';
                 return;
             }
 
@@ -193,7 +193,7 @@
                     await autoJoinFarmagramServer(data.token);
                     showMessage('Login successful! Redirecting...', 'success');
                     setTimeout(() => {
-                        window.location.href = '/home.html';
+                        window.location.href = '/home';
                     }, 1000);
                 } else {
                     showMessage(data.error || 'Invalid username or password.', 'error');
