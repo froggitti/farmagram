@@ -253,7 +253,7 @@
 </head>
 <body>
     <div id="header">
-        <a href="/home.html"><img src="./images/fgLogo1.png" alt="Farmagram Logo"></a>
+        <a href="/home"><img src="./images/fgLogo1.png" alt="Farmagram Logo"></a>
         <div class="buttons communities">
             <a href="#" class="community-add-btn" onclick="openCommunityModal()" title="Add Community">+</a>
         </div>
@@ -354,7 +354,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             const token = localStorage.getItem('farmagramToken');
             if (!token) {
-                window.location.href = '/signin.html';
+                window.location.href = '/signin';
                 return;
             }
             initializeApp();
@@ -394,7 +394,7 @@
                 showMessage('Failed to initialize app. Please try logging in again.', 'error');
                 setTimeout(() => {
                     localStorage.removeItem('farmagramToken');
-                    window.location.href = '/signin.html';
+                    window.location.href = '/signin';
                 }, 2000);
             }
         }
@@ -776,7 +776,7 @@
           if (socket) {
               socket.disconnect();
           }
-          window.location.href = '/signin.html';
+          window.location.href = '/signin';
       }
       
       function showMessage(message, type) {
