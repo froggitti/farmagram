@@ -136,7 +136,7 @@
             </form>
         </div>
         <div id="footer">
-            <p>© 2025 Farmagram LLC | <a href="/signin.html">Sign In</a></p>
+            <p>© 2025 Farmagram LLC | <a href="/signin">Sign In</a></p>
         </div>
     </div>
 
@@ -154,7 +154,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             const token = localStorage.getItem('farmagramToken');
             if (token) {
-                window.location.href = '/home.html';
+                window.location.href = '/home';
                 return;
             }
 
@@ -210,7 +210,7 @@
                     await autoJoinFarmagramServer(data.token);
                     showMessage('Account created successfully! Redirecting...', 'success');
                     setTimeout(() => {
-                        window.location.href = '/home.html';
+                        window.location.href = '/home';
                     }, 2000);
                 } else {
                     showMessage(data.error || 'Failed to create account. Please try again.', 'error');
